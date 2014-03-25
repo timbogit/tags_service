@@ -23,10 +23,16 @@ ActiveRecord::Schema.define(version: 20140323230848) do
     t.datetime "updated_at"
   end
 
+  add_index "tagged_items", ["item_id", "tag_id"], name: "index_tagged_items_on_item_id_and_tag_id", unique: true, using: :btree
+  add_index "tagged_items", ["item_id"], name: "index_tagged_items_on_item_id", using: :btree
+  add_index "tagged_items", ["tag_id"], name: "index_tagged_items_on_tag_id", using: :btree
+
   create_table "tags", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "tags", ["name"], name: "index_tags_on_name", using: :btree
 
 end

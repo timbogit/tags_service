@@ -1,0 +1,19 @@
+burger_bacon:
+  item_id: 1
+  tag: bacon
+
+burger_burger:
+  item_id: 1
+  tag: burger
+
+burger_collectible:
+  item_id: 1
+  tag: collectible
+
+laptop_computer:
+  item_id: 2
+  tag: computer
+
+laptop_collectible:
+  item_id: 2
+  tag: collectible
