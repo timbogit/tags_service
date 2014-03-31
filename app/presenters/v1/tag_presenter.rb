@@ -1,5 +1,6 @@
 class Presenters::V1::TagPresenter < ::Presenter
   include ActionView::Helpers::TextHelper
+  include Rails.application.routes.url_helpers
 
   attr_accessor :tag
 
@@ -17,7 +18,8 @@ class Presenters::V1::TagPresenter < ::Presenter
         items: tag.tagged_items.map do |item|
                  { id: item.item_id }
                end
-      }
+      },
+      path:   tag_path(1, tag.name)
     })
   end
 end
