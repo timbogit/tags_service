@@ -1,4 +1,5 @@
 class TaggedItemsController < ApplicationController
+  include ApplicationHelper
   before_action :find_tag
   before_action :find_tagged_item, except: [:index, :create]
   # # Show a single tagged items for a given tag
@@ -26,21 +27,21 @@ class TaggedItemsController < ApplicationController
     # explicitly setting the Cache-Control response header to public and max-age, to make the response cachable by proxy caches
     expires_in caching_time, public: true
   end
-  #
-  # # Create a new tag.
-  # # Example:
-  # #  `curl -v -H "Content-type: application/json" -X POST 'http://localhost:3000/api/v1/tags.json' \
-  # #         -d '{"name":"android"}'`
-  # def create
-  #   tag = Tag.find_or_initialize_by(params.slice(:name))
-  #   render(json: {error: "Tag with name #{params[:name]} already exists."}, status: :conflict) and return unless tag.new_record?
-  #   if tag.save
-  #     render text: '{"success": true}', status: :created, location: tag_path(params[:version], tag.name)
-  #   else
-  #     Rails.logger.error "cannot create because there were errors saving #{tag.attributes.inspect} ... #{tag.errors.to_hash}"
-  #     render(json: tag.errors, status: :unprocessable_entity)
-  #   end
-  # end
+
+  # Create a new tagged_item for a given tag and item ID.
+  # Example:
+  #  `curl -v -H "Content-type: application/json" -X POST 'http://localhost:3000/api/v1/tags/android/tagged_items.json' \
+  #         -d '{"id":1}'`
+  def create
+    item = TaggedItem.find_or_initialize_by(item_id: params[:id], tag_id: @tag.id)
+    render(json: {error: "Tagged item combination {tag-name: #{@tag.name}, item_id: #{item.item_id}] already exists."}, status: :conflict) and return unless item.new_record?
+    if item.save
+      render text: '{"success": true}', status: :created, location: tagged_item_url(item, (params[:version]))
+    else
+      Rails.logger.error "cannot create because there were errors saving #{item.attributes.inspect} ... #{item.errors.to_hash}"
+      render(json: item.errors, status: :unprocessable_entity)
+    end
+  end
   #
   # # Update an existing tag.
   # # Example:

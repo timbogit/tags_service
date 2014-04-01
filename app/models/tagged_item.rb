@@ -1,5 +1,5 @@
 class TaggedItem < ActiveRecord::Base
-  attr_accessible :item_id
+  attr_accessible :item_id, :tag_id
 
   belongs_to :tag
   validates_presence_of :item_id, :tag_id

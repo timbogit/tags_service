@@ -1,6 +1,4 @@
 class Presenters::V1::TagPresenter < ::Presenter
-  include ActionView::Helpers::TextHelper
-  include Rails.application.routes.url_helpers
 
   attr_accessor :tag
 

@@ -1,4 +1,8 @@
 class Presenter
+  include ActionView::Helpers::TextHelper
+  include Rails.application.routes.url_helpers
+  include ApplicationHelper
+
   delegate :to_json, :to => :hash
 
   attr_accessor :hash, :version
