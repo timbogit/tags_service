@@ -56,7 +56,7 @@ TagsService::Application.routes.draw do
   scope 'api' do
     scope 'v:version' do
       resources :tags, except: [:new, :edit] do
-        resources :tagged_items, except: [:new, :edit]
+        resources :tagged_items, except: [:new, :edit, :update]
       end
     end
   end

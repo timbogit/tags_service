@@ -14,10 +14,11 @@ class Presenters::V1::TagPresenter < ::Presenter
       tagged_items: {
         count: tag.tagged_items.count,
         items: tag.tagged_items.map do |item|
-                 { id: item.item_id }
+                 { id:  item.item_id,
+                   url: tagged_item_url(item, self.class.version_number) }
                end
       },
-      path:   tag_path(1, tag.name)
+      path:   tag_path(self.class.version_number, tag.name)
     })
   end
 end
