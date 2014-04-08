@@ -6,7 +6,7 @@
     {
       "path": "/tagged_items.{format}",
       "description": "Managing associating tags with items"
-    }
+    },
     {
       "path": "/tags.{format}",
       "description": "Tag management"
