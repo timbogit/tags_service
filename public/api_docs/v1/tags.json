@@ -7,7 +7,7 @@
       "path": "/tags.json",
       "operations": [
         {
-          "summary": "Fetches all tagged items",
+          "summary": "Fetches all tags",
           "responseMessages": [
             {
               "code": 304,
@@ -15,21 +15,21 @@
             }
           ],
           "method": "get",
-          "nickname": "TaggedItems#index"
+          "nickname": "Tags#index"
         }
       ]
     },
     {
-      "path": "/inventory_items.json",
+      "path": "/tags.json",
       "operations": [
         {
           "summary": "Creates a new inventory item",
           "parameters": [
             {
               "paramType": "form",
-              "name": "inventory_item",
-              "type": "InventoryItem",
-              "description": "First name",
+              "name": "tag",
+              "type": "Tag",
+              "description": "Name (unique) of the tag to be created",
               "required": true
             }
           ],
@@ -40,21 +40,21 @@
             }
           ],
           "method": "post",
-          "nickname": "InventoryItems#create"
+          "nickname": "Tags#create"
         }
       ]
     },
     {
-      "path": "/inventory_items/{id}.json",
+      "path": "/tags/{name}.json",
       "operations": [
         {
-          "summary": "Fetches a single inventory item",
+          "summary": "Fetches a single tag by its name",
           "parameters": [
             {
               "paramType": "path",
-              "name": "id",
-              "type": "integer",
-              "description": "Inventory Item Id",
+              "name": "name",
+              "type": "string",
+              "description": "Tag name",
               "required": true
             }
           ],
@@ -69,28 +69,28 @@
             }
           ],
           "method": "get",
-          "nickname": "InventoryItems#show"
+          "nickname": "Tags#show"
         }
       ]
     },
     {
-      "path": "/inventory_items/{id}.json",
+      "path": "/tags/{name}.json",
       "operations": [
         {
-          "summary": "Updates an existing inventory item",
+          "summary": "Updates an existing tag referenced by its name",
           "parameters": [
             {
               "paramType": "path",
-              "name": "id",
-              "type": "integer",
-              "description": "Inventory Item Id",
+              "name": "name",
+              "type": "string",
+              "description": "Tag name",
               "required": true
             },
             {
               "paramType": "form",
-              "name": "inventory_item",
-              "type": "InventoryItem",
-              "description": "First name",
+              "name": "tag",
+              "type": "Tag",
+              "description": "The tag's new name",
               "required": true
             }
           ],
@@ -105,28 +105,28 @@
             }
           ],
           "method": "patch",
-          "nickname": "InventoryItems#update"
+          "nickname": "Tags#update"
         }
       ]
     },
     {
-      "path": "/inventory_items/{id}.json",
+      "path": "/tags/{name}.json",
       "operations": [
         {
-          "summary": "Updates an existing inventory item",
+          "summary": "Updates an existing tag referenced by its name",
           "parameters": [
             {
               "paramType": "path",
-              "name": "id",
-              "type": "integer",
-              "description": "Inventory Item Id",
+              "name": "name",
+              "type": "string",
+              "description": "Tag name",
               "required": true
             },
             {
               "paramType": "form",
-              "name": "inventory_item",
-              "type": "InventoryItem",
-              "description": "First name",
+              "name": "tag",
+              "type": "Tag",
+              "description": "The tag's new name",
               "required": true
             }
           ],
@@ -141,21 +141,21 @@
             }
           ],
           "method": "put",
-          "nickname": "InventoryItems#update"
+          "nickname": "Tags#update"
         }
       ]
     },
     {
-      "path": "/inventory_items/{id}.json",
+      "path": "/tags/{name}.json",
       "operations": [
         {
-          "summary": "Deletes an existing inventory item",
+          "summary": "Deletes an existing tag referenced by its name",
           "parameters": [
             {
               "paramType": "path",
-              "name": "id",
-              "type": "integer",
-              "description": "Inventory Item Id",
+              "name": "name",
+              "type": "string",
+              "description": "name of the tag to delete",
               "required": true
             }
           ],
@@ -170,35 +170,25 @@
             }
           ],
           "method": "delete",
-          "nickname": "InventoryItems#destroy"
+          "nickname": "Tags#destroy"
         }
       ]
     }
   ],
-  "resourcePath": "/inventory_items",
+  "resourcePath": "/tags",
   "models": {
-    "InventoryItem": {
-      "id": "InventoryItem",
+    "Tag": {
+      "id": "Tag",
       "required": [
-        "address_id",
-        "price",
-        "title"
+        "name"
       ],
       "properties": {
-        "address_id": {
-          "type": "integer",
-          "description": "ID of the location where the inventory item is sold."
-        },
-        "price": {
-          "type": "double",
-          "description": "Price of the inventory item."
-        },
-        "title": {
+        "name": {
           "type": "string",
-          "description": "Name of the inventory item."
+          "description": "Name (unique) of the tag."
         }
       },
-      "description": "An inventory item."
+      "description": "A tag to be applied to items."
     }
   }
 }

@@ -4,10 +4,19 @@
   "basePath": "http://tags-service-development.herokuapp.com/api/v1",
   "apis": [
     {
-      "path": "/tagged_items.json",
+      "path": "/tags/{tag_name}/tagged_items.json",
       "operations": [
         {
-          "summary": "Fetches all tagged items",
+          "summary": "Fetches all tagged items for tag {tag_name}",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "tag_name",
+              "type": "string",
+              "description": "Tag name for which all tagged items are retrieved",
+              "required": true
+            }
+          ],
           "responseMessages": [
             {
               "code": 304,
@@ -20,16 +29,23 @@
       ]
     },
     {
-      "path": "/inventory_items.json",
+      "path": "/tags/{tag_name}/tagged_items.json",
       "operations": [
         {
-          "summary": "Creates a new inventory item",
+          "summary": "Tags an item with ID {id} with tag by name {tag_name}",
           "parameters": [
             {
+              "paramType": "path",
+              "name": "tag_name",
+              "type": "string",
+              "description": "Tag name to be applied to the tagged item",
+              "required": true
+            },
+            {
               "paramType": "form",
-              "name": "inventory_item",
-              "type": "InventoryItem",
-              "description": "First name",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of the item to be tagged",
               "required": true
             }
           ],
@@ -40,21 +56,28 @@
             }
           ],
           "method": "post",
-          "nickname": "InventoryItems#create"
+          "nickname": "TaggedItems#create"
         }
       ]
     },
     {
-      "path": "/inventory_items/{id}.json",
+      "path": "/tags/{tag_name}/tagged_items/{id}.json",
       "operations": [
         {
-          "summary": "Fetches a single inventory item",
+          "summary": "Fetches a single tagged item for tag {tag_name} and item ID {id}",
           "parameters": [
             {
               "paramType": "path",
               "name": "id",
               "type": "integer",
-              "description": "Inventory Item Id",
+              "description": "ID of the tagged item",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "tag_name",
+              "type": "string",
+              "description": "Name of the tag that is was applied to the tagged item",
               "required": true
             }
           ],
@@ -69,28 +92,28 @@
             }
           ],
           "method": "get",
-          "nickname": "InventoryItems#show"
+          "nickname": "TaggedItems#show"
         }
       ]
     },
     {
-      "path": "/inventory_items/{id}.json",
+      "path": "/tags/{tag_name}/tagged_items/{id}.json",
       "operations": [
         {
-          "summary": "Updates an existing inventory item",
+          "summary": "Deletes an existing association between a tag (by name) and a tagged item",
           "parameters": [
             {
               "paramType": "path",
               "name": "id",
               "type": "integer",
-              "description": "Inventory Item Id",
+              "description": "ID of the item that is currently tagged",
               "required": true
             },
             {
-              "paramType": "form",
-              "name": "inventory_item",
-              "type": "InventoryItem",
-              "description": "First name",
+              "paramType": "path",
+              "name": "tag_name",
+              "type": "string",
+              "description": "name of the tag to be removed from the item",
               "required": true
             }
           ],
@@ -100,105 +123,15 @@
               "message": "Not Found"
             },
             {
-              "code": 422,
-              "message": "Unprocessable Entity"
-            }
-          ],
-          "method": "patch",
-          "nickname": "InventoryItems#update"
-        }
-      ]
-    },
-    {
-      "path": "/inventory_items/{id}.json",
-      "operations": [
-        {
-          "summary": "Updates an existing inventory item",
-          "parameters": [
-            {
-              "paramType": "path",
-              "name": "id",
-              "type": "integer",
-              "description": "Inventory Item Id",
-              "required": true
-            },
-            {
-              "paramType": "form",
-              "name": "inventory_item",
-              "type": "InventoryItem",
-              "description": "First name",
-              "required": true
-            }
-          ],
-          "responseMessages": [
-            {
-              "code": 404,
-              "message": "Not Found"
-            },
-            {
-              "code": 422,
-              "message": "Unprocessable Entity"
-            }
-          ],
-          "method": "put",
-          "nickname": "InventoryItems#update"
-        }
-      ]
-    },
-    {
-      "path": "/inventory_items/{id}.json",
-      "operations": [
-        {
-          "summary": "Deletes an existing inventory item",
-          "parameters": [
-            {
-              "paramType": "path",
-              "name": "id",
-              "type": "integer",
-              "description": "Inventory Item Id",
-              "required": true
-            }
-          ],
-          "responseMessages": [
-            {
-              "code": 404,
-              "message": "Not Found"
-            },
-            {
-              "code": 422,
-              "message": "Unprocessable Entity"
+              "code": 400,
+              "message": "Bad Request"
             }
           ],
           "method": "delete",
-          "nickname": "InventoryItems#destroy"
+          "nickname": "TaggedItems#destroy"
         }
       ]
     }
   ],
-  "resourcePath": "/inventory_items",
-  "models": {
-    "InventoryItem": {
-      "id": "InventoryItem",
-      "required": [
-        "address_id",
-        "price",
-        "title"
-      ],
-      "properties": {
-        "address_id": {
-          "type": "integer",
-          "description": "ID of the location where the inventory item is sold."
-        },
-        "price": {
-          "type": "double",
-          "description": "Price of the inventory item."
-        },
-        "title": {
-          "type": "string",
-          "description": "Name of the inventory item."
-        }
-      },
-      "description": "An inventory item."
-    }
-  }
+  "resourcePath": "/tagged_items"
 }
