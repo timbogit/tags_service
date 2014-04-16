@@ -19,7 +19,7 @@ class TagsController < ApplicationController
   def index
     item_id = params[:item_id].to_i
     all_tags = (item_id > 0) ? Tag.joins(:tagged_items).where(tagged_items: {item_id: item_id}) : Tag.all
-    return json_response([]) unless newest_tag = all_tags.sort_by(&:updated_at).first
+    return json_response([]) unless newest_tag = all_tags.sort_by(&:updated_at).last
     Rails.logger.info "newest_tag is #{newest_tag.inspect}"
     render_if_stale(all_tags, last_modified: newest_tag.updated_at.utc, etag: newest_tag) do |tag_presenters|
       tag_presenters.map(&:hash)

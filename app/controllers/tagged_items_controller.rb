@@ -19,7 +19,7 @@ class TaggedItemsController < ApplicationController
   #  `curl -v -H "Content-type: application/json" 'http://localhost:3000/api/v1/tags/android/tagged_items.json'`
   def index
     all_tagged_items = @tag.tagged_items
-    return json_response([]) unless newest_tagged_item = all_tagged_items.sort_by(&:updated_at).first
+    return json_response([]) unless newest_tagged_item = all_tagged_items.sort_by(&:updated_at).last
     Rails.logger.info "newest_tagged_item is #{newest_tagged_item.inspect}"
     render_if_stale(all_tagged_items, last_modified: newest_tagged_item.updated_at.utc, etag: newest_tagged_item) do |tagged_item_presenters|
       tagged_item_presenters.map(&:hash)
