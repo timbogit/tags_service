@@ -65,6 +65,7 @@ class TaggedItemsController < ApplicationController
   end
 
   def find_tagged_item
-    not_found_with_max_age(caching_time) and return unless (@tagged_item = @tag.tagged_items.where(item_id: params[:id]).first)
+    @tagged_item = @tag.tagged_items.where(item_id: params[:id], item_type: TaggedItem.item_type_id_for(params[:type])).first
+    not_found_with_max_age(caching_time) and return unless @tagged_item
   end
 end
