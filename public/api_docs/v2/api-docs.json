@@ -1,0 +1,15 @@
+{
+  "apiVersion": "2.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://tags-service-development.herokuapp.com/api_docs/v2",
+  "apis": [
+    {
+      "path": "/tagged_items.{format}",
+      "description": "Managing associating tags with items"
+    },
+    {
+      "path": "/tags.{format}",
+      "description": "Tag management"
+    }
+  ]
+}

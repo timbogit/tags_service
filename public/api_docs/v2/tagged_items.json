@@ -1,0 +1,165 @@
+{
+  "apiVersion": "2.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://tags-service-development.herokuapp.com/api/v2",
+  "apis": [
+    {
+      "path": "/tags/{tag_name}/tagged_items.json",
+      "operations": [
+        {
+          "summary": "Fetches all tagged items for tag {tag_name}",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "tag_name",
+              "type": "string",
+              "description": "Tag name for which all tagged items are retrieved",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "item_type",
+              "type": "string",
+              "description": "Name of the type of item by which to filter the items tagged, e.g. 'city'; defaults to 'all'",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 304,
+              "message": "The content has not changed in relation to the request ETag / If-Modified-Since"
+            }
+          ],
+          "method": "get",
+          "nickname": "TaggedItems#index"
+        }
+      ]
+    },
+    {
+      "path": "/tags/{tag_name}/tagged_items.json",
+      "operations": [
+        {
+          "summary": "Tags an item with ID {id} with tag by name {tag_name}",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "tag_name",
+              "type": "string",
+              "description": "Tag name to be applied to the tagged item",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of the item to be tagged",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "item_type",
+              "type": "string",
+              "description": "Name of the type of item to be tagged, e.g. 'city'; defaults to 'inventory_item'",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 422,
+              "message": "Unprocessable Entity"
+            }
+          ],
+          "method": "post",
+          "nickname": "TaggedItems#create"
+        }
+      ]
+    },
+    {
+      "path": "/tags/{tag_name}/tagged_items/{id}.json",
+      "operations": [
+        {
+          "summary": "Fetches a single tagged item for tag {tag_name} and item ID {id}",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of the tagged item",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "tag_name",
+              "type": "string",
+              "description": "Name of the tag that is was applied to the tagged item",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "item_type",
+              "type": "string",
+              "description": "Name of the item type by which to filter the applicable tags (e.g., 'city'), so that just one tagged item is ever returned; defaults to 'inventory_item'",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 304,
+              "message": "The content has not changed in relation to the request ETag / If-Modified-Since"
+            },
+            {
+              "code": 404,
+              "message": "Not Found"
+            }
+          ],
+          "method": "get",
+          "nickname": "TaggedItems#show"
+        }
+      ]
+    },
+    {
+      "path": "/tags/{tag_name}/tagged_items/{id}.json",
+      "operations": [
+        {
+          "summary": "Deletes an existing association between a tag (by name) and a tagged item",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of the item that is currently tagged",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "tag_name",
+              "type": "string",
+              "description": "name of the tag to be removed from the item",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "item_type",
+              "type": "string",
+              "description": "Name of the item type by which to filter the applicable tags (e.g., 'city'), so that just one tagged item is ever destroyed; defaults to 'inventory_item'",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 404,
+              "message": "Not Found"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request"
+            }
+          ],
+          "method": "delete",
+          "nickname": "TaggedItems#destroy"
+        }
+      ]
+    }
+  ],
+  "resourcePath": "/tagged_items"
+}
