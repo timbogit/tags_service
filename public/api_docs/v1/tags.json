@@ -7,7 +7,16 @@
       "path": "/tags.json",
       "operations": [
         {
-          "summary": "Fetches all tags",
+          "summary": "Fetches all tags (filterable by tags for a given item_id)",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "item_id",
+              "type": "integer",
+              "description": "ID of the tagged inventory item by which to filter the tags",
+              "required": false
+            }
+          ],
           "responseMessages": [
             {
               "code": 304,
