@@ -7,18 +7,18 @@ class Presenters::V1::TagPresenter < ::Presenter
     super(@tag)
   end
 
-  def to_hash(item = tag)
+  def to_hash(tg = tag)
     HashWithIndifferentAccess.new(
     {
-      name:   tag.name,
+      name:   tg.name,
       tagged_items: {
-        count: tag.tagged_items.count,
-        items: tag.tagged_items.map do |item|
+        count: tg.tagged_items.count,
+        items: tg.tagged_items.map do |item|
                  { id:  item.item_id,
                    url: tagged_item_url(item, self.class.version_number) }
                end
       },
-      path:   tag_path(self.class.version_number, tag.name)
+      path:   tag_path(self.class.version_number, tg.name)
     })
   end
 end
