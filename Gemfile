@@ -28,4 +28,8 @@ group :production do
   gem 'rails_12factor'
 end
 
+group :development, :production do
+  gem 'swagger_yard', :git => 'git://github.com/tpitale/swagger_yard', :branch => 'master'
+end
+
 ruby "2.1.1"

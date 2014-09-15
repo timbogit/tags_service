@@ -1,3 +1,12 @@
+GIT
+  remote: git://github.com/tpitale/swagger_yard
+  revision: 2f1a22d342838b0ea12fab259c1c20311cb230e8
+  branch: master
+  specs:
+    swagger_yard (0.0.6)
+      rails (>= 3.2.8)
+      yard
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -104,6 +113,7 @@ GEM
       ansi
       minitest (~> 4)
     tzinfo (0.3.39)
+    yard (0.8.7.4)
 
 PLATFORMS
   ruby
@@ -120,4 +130,5 @@ DEPENDENCIES
   protected_attributes
   rails (= 4.0.4)
   rails_12factor
+  swagger_yard!
   turn

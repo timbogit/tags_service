@@ -1,10 +1,26 @@
+# @resource Tagged Items
+#
+# @resource_path /tagged_items
+#
+# API for managing associations between tags and items.
+#
 class TaggedItemsController < ApplicationController
   include ApplicationHelper
   before_action :find_tag
   before_action :find_tagged_item, except: [:index, :create]
-  # Show a single tagged items for a given tag
-  # Example:
-  #  `curl -v -H "Content-type: application/json" 'http://localhost:3000/api/v1/tags/android/tagged_items/1.json'`
+
+  ##
+  # @summary Fetches a single tagged item for tag {tag_name} and item ID {id}.
+  #
+  # @notes Example: `curl -v -H "Content-type: application/json" 'http://localhost:3000/api/v1/tags/android/tagged_items/1.json'`
+  #
+  # @path [GET] /tags/{tag_name}/tagged_items/{id}.json
+  #
+  # @response_type     [TaggedItem]
+  #
+  # @error_message     304  The content has not changed in relation to the request ETag / If-Modified-Since
+  # @error_message     404  The requested tagged item cannot be found
+  #
   def show
     Rails.logger.debug "Tagged item is #{@tagged_item.inspect}"
     render_if_stale(@tagged_item, last_modified: @tagged_item.updated_at.utc, etag: @tagged_item) do |tagged_item_presenter|
@@ -14,9 +30,17 @@ class TaggedItemsController < ApplicationController
     expires_in caching_time, public: true
   end
 
-  # List all tagged items for a given tag
-  # Example:
-  #  `curl -v -H "Content-type: application/json" 'http://localhost:3000/api/v1/tags/android/tagged_items.json'`
+  ##
+  # @summary Returns all tagged items for tag {tag_name}
+  #
+  # @notes Example: `curl -v -H "Content-type: application/json" 'http://localhost:3000/api/v1/tags/android/tagged_items.json'`
+  #
+  # @path [GET] /tags/{tag_name}/tagged_items.json
+  #
+  # @response_type     [array<TaggedItem>]
+  #
+  # @error_message     304   The content has not changed in relation to the request ETag / If-Modified-Since
+  #
   def index
     all_tagged_items = @tag.tagged_items
     return json_response([]) unless newest_tagged_item = all_tagged_items.sort_by(&:updated_at).last
@@ -28,10 +52,20 @@ class TaggedItemsController < ApplicationController
     expires_in caching_time, public: true
   end
 
-  # Create a new tagged_item for a given tag and item ID.
-  # Example:
-  #  `curl -v -H "Content-type: application/json" -X POST 'http://localhost:3000/api/v1/tags/android/tagged_items.json' \
-  #         -d '{"id":1}'`
+  ##
+  # @summary Tags an item with ID {id} with tag by name {tag_name}
+  #
+  # @notes Example: `curl -v -H "Content-type: application/json" -X POST 'http://localhost:3000/api/v1/tags/android/tagged_items.json' \
+  #                    -d '{"id":1}'`
+  #
+  # @path [POST] /tags/{tag_name}/tagged_items.json
+  #
+  # @parameter         [integer]    id(required)  ID of the item to be tagged
+  #
+  # @response_type     [string]
+  #
+  # @error_message     422   Unprocessable Entity
+  #
   def create
     item = TaggedItem.find_or_initialize_by(item_id: params[:id], tag_id: @tag.id)
     render(json: {error: "Tagged item combination {tag-name: #{@tag.name}, item_id: #{item.item_id}] already exists."}, status: :conflict) and return unless item.new_record?
@@ -43,6 +77,18 @@ class TaggedItemsController < ApplicationController
     end
   end
 
+  ##
+  # @summary Deletes an existing association between a tag (by {tag_name}) and a tagged item (by {id}).
+  #
+  # @notes Example: `curl -v -H "Content-type: application/json" -X DELETE 'http://localhost:3000/api/v1/tags/android/tagged_items/1.json'`
+  #
+  # @path [DELETE] /tags/{tag_name}/tagged_items/{id}.json
+  #
+  # @response_type     [string]
+  #
+  # @error_message     400  Bad Request, cannot destroy tagged item because there were errors deleting the tag
+  # @error_message     404  The requested tagged item to be deleted cannot be found
+  #
 
   # Delete a tagged_item entry for a given tag and item ID
   # Example:

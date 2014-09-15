@@ -22,8 +22,13 @@ workshop.
   `bundle exec rake db:fixtures:load`
 
 * How to run the test suite
+  `bundle exec rake test`
 
-* Services (job queues, cache servers, search engines, etc.)
+* API endpoints
+  * The `tags_service` comes with a Swagger UI that describes, and lets you try
+out, all exposed API endpoints.
+  * Just navigate to [`http://localhost/swagger/doc`](http://localhost/swagger/doc)
+to see and test-drive the full set of APIs /
 
 * Deployment instructions
   * general instructions here: https://devcenter.heroku.com/articles/getting-started-with-rails4
